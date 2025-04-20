@@ -53,6 +53,7 @@ platform :ios do
     
     match(
       type: "appstore",
+      readonly: false,  # <-- this is what was missing
       git_basic_authorization: Base64.strict_encode64("#{GITHUB_REPOSITORY_OWNER}:#{GH_PAT}"),
       app_identifier: [
         "com.#{TEAMID}.loopkit.Loop", 
@@ -236,7 +237,7 @@ platform :ios do
   desc "Validate Secrets"
   lane :validate_secrets do
     setup_ci if ENV['CI']
-    ENV["MATCH_READONLY"] = true.to_s
+    ENV["MATCH_READONLY"] = false.to_s
     
     app_store_connect_api_key(
       key_id: "#{FASTLANE_KEY_ID}",
